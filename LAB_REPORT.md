@@ -80,11 +80,15 @@ Fill each row from its own `summary.json`. Use the file from the CURRENT report 
 
 | Batch | Reference mean (`reference_mean`) | Batch mean (`current_mean`) | Method | Score | Threshold | Result (`DRIFT` or `NO DRIFT`) |
 | --- | --- | --- | --- | --- | --- | --- |
-| `CURRENT` | | | | | | |
-| `SHIFTED` | | | | | | |
+| `CURRENT` | 0.4724440528104574 | 0.47574189751633994 | K-S p_value | 0.8079631540901643 | 0.05 | NO DRIFT |
+| `SHIFTED` | 0.4724440528104574 | 0.16466240836601304 | K-S p_value | 1.6911233892144742e-17 | 0.05 | DRIFT |
 
-- Final full test count:
+- Final full test count: 9 passed
 
 ### Question 5 · Explanation
 
-Answer:
+CURRENT has a p-value of 0.8079631540901643, above the 0.05 threshold, so this batch shows NO DRIFT in brightness. SHIFTED has a p-value of 1.6911233892144742e-17, below 0.05, so it shows DRIFT. Poor lighting, a changed camera exposure, or a different capture setup could cause that brightness shift. Brightness drift describes the inputs, not whether predictions are correct; labels are needed to compare predictions with ground truth and measure accuracy.
+
+Team decision: MONITOR CURRENT because its brightness distribution is consistent with the reference; continue checking new batches. REPAIR SHIFTED by investigating and correcting the lighting or capture process, then measure the corrected batch again; the brightness result alone is not a reason to retrain.
+
+If accuracy falls after a repair, compare the current model and the available alternate version on a representative, recent labeled holdout set, including per-class metrics. Switch to the alternate only if it meets the accuracy requirements; otherwise retrain. Before approval, stage the selected model version and verify `/ready` reports that version, `/health` responds, smoke predictions succeed, and evaluation on representative labeled images meets the agreed quality thresholds.
