@@ -40,20 +40,20 @@ SHA is just a unique ID for the commit
 
 ### Checkpoint 3 · Evidence
 
-- Local branch:
-- Local commit SHA:
-- Local API test count:
-- Actions run source (`main`, `PULL REQUEST` or `UNAVAILABLE`):
-- Actions run URL:
-- `tests` job status:
-- `docker-build` job status:
-- Container smoke result or first failed CI step:
+- Local branch: `ci-checks`
+- Local commit SHA: `2f0f5c3f91044ac693e3fe9b201a1e44583d80a9`
+- Local API test count: 7 passed
+- Actions run source (`main`, `PULL REQUEST` or `UNAVAILABLE`): `PULL REQUEST`
+- Actions run URL: https://github.com/GouNicolas/AI53_Phase2_Lab_/actions/runs/46008156251
+- `tests` job status: `PASS`
+- `docker-build` job status: `PASS`
+- Container smoke result: `PASS GET /ready (model_version=phase1-reference-v1); PASS GET /health; PASS POST /predict (label=angular_leaf_spot, model_version=phase1-reference-v1)`
 
 For the two job statuses, use `PASS`, `FAIL`, `PENDING`, `SKIPPED`, `CANCELLED` or `UNAVAILABLE`. Use `SKIPPED` when Actions shows that a job was skipped. Use `UNAVAILABLE` for missing CI evidence.
 
 ### Question 3 · Explanation
 
-Answer:
+`needs: tests` makes `docker-build` wait for the `tests` job to succeed, so the image is not built and smoke-tested if the API tests fail. After merging, checking the run on `main` verifies CI against the commit actually added to the target branch, rather than only the pull request's trial merge.
 
 ## Milestone 4 · Verify a staging release
 
