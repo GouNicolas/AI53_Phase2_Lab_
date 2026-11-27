@@ -6,25 +6,35 @@ At each milestone, copy the observed results under **Checkpoint**, then answer t
 
 ### Checkpoint 1 · Evidence
 
-- GitHub repository URL:
-- Expected model version:
-- Three class labels:
-- First pushed commit SHA:
+- GitHub repository URL: https://github.com/GouNicolas/AI53_Phase2_Lab_
+- Expected model version: phase1-reference-v1
+- Three class labels: angular leaf spot, bean rust, healthy
+- First pushed commit SHA: 8a1229eecd622fe974a54cf25530d3b2ab2dc52e
 
 ### Question 1 · Explanation
 
 Answer:
+- GitHub repository URL: https://github.com/GouNicolas/AI53_Phase2_Lab_
+- Expected model version: phase1-reference-v1
+- Three class labels: angular leaf spot, bean rust, healthy
+- First pushed commit SHA: 8a1229eecd622fe974a54cf25530d3b2ab2dc52e
+
+What does the model version identify? What does the Git SHA you just recorded identify?
+model version will be used to identify the current model, it will be our champion for the first run.
+
+SHA is just a unique ID for the commit
 
 ## Milestone 2 · Serve predictions with FastAPI
 
 ### Checkpoint 2 · Evidence
 
-- Final API test count after TODO 1:
-- Browser prediction JSON for `data/current/leaf-01.jpg` (`UNAVAILABLE` and the error shown if the page gives no prediction):
+- Final API test count after TODO 1: 7 passed
+- Browser prediction JSON for `data/current/leaf-01.jpg`: `{"label":"angular_leaf_spot","confidence":0.5016346573829651,"model_version":"phase1-reference-v1"}`
 
 ### Question 2 · Explanation
 
-Answer:
+`/health` only confirms that the service is responding 
+`/ready` also confirms that the model loaded and reports its version. Including the model version in each prediction makes it possible to trace which model produced the result and verify it matches the expected release.
 
 ## Milestone 3 · Run tests and build in GitHub Actions
 

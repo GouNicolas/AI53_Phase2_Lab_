@@ -76,11 +76,23 @@ def ready(request: Request) -> dict[str, str]:
     model = ready_model(request)
     return {"status": "ready", "model_version": model.version}
 
-
+"""
+GET /health
+200 and
+status = ok. The service answers.
+GET /ready
+200 and
+status = ready, with the loaded
+model_version.
+POST /predict
+Upload a JPG or PNG in the field named
+file. The response contains
+label, confidence (as a score from 0 to 1) and
+model_version.
+"""
 @app.post("/predict", response_model=Prediction)
 def classify(request: Request, file: Annotated[UploadFile, File()]) -> Prediction:
     model = ready_model(request)
     image = decode_image(file)
-
-    # TODO 1
-    raise HTTPException(status_code=501, detail="Complete TODO 1 first.")
+    label, confidence = predict(model, image)
+    return Prediction(label=label, confidence=confidence, model_version=model.version)
